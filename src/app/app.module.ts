@@ -22,9 +22,6 @@ import { appReducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // ANGULAR FIRE
-// import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-// import { provideAuth, getAuth } from '@angular/fire/auth';
-// import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'; // para trabajar con la autenticación de firebase
 import { AngularFireModule } from '@angular/fire/compat'; // para la configuración de firebase
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // para trabajar con las colecciones de firestore
@@ -56,9 +53,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // para
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
-    // provideFirestore(() => getFirestore())
   ],
   providers: [],
   bootstrap: [AppComponent]
