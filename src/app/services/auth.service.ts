@@ -1,3 +1,4 @@
+import { unSetItems } from './../ingreso-egreso/ingreso-egreso.actions';
 import { setUser, unSetUser } from './../auth/auth.actions';
 import { AppState } from 'src/app/app.reducer';
 import { Store } from '@ngrx/store';
@@ -13,6 +14,8 @@ import { Usuario } from '../models/usuario.model';
 export class AuthService {
 
   userSubscription: Subscription | undefined;
+  // Para poder tener un objeto de lectura con los datos del usuario
+  private _user: Usuario | null = null;
 
   constructor(public authFire: AngularFireAuth,
     private firestore: AngularFirestore,
@@ -34,6 +37,7 @@ export class AuthService {
         this.userSubscription = this.firestore.doc(`${firebaseUser.uid}/usuario`).valueChanges().subscribe((firestoreUser: any) => {
           // const userLogged = new Usuario(user.uid, user.nombre, user.email);
           const user = Usuario.fromFirestore(firestoreUser);
+          this._user = user;
           this.store.dispatch(setUser({ user: user })); // Podría ser: this.store.dispatch(setUser({ user }));
         });
       } else {
@@ -44,10 +48,17 @@ export class AuthService {
          * se cierra la subscripcion. Cuando se inicie de nuevo sesión: este servicio se ejecuta > entra en el if (porque 
          * firebaseUser ya sí tiene valor) > se abre una nueva subscripción.
          */
+        this._user = null;
         this.userSubscription?.unsubscribe();
         this.store.dispatch(unSetUser());
+        this.store.dispatch(unSetItems());
       }
     });
+  }
+
+  // Con este get podremos leer el objeto _user en ingreso-egreso.service y obtener el uid
+  get user() {
+    return this._user;
   }
 
   crearUsuario(nombre: string, email: string, password: string) {
