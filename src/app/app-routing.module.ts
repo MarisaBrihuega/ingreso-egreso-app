@@ -11,9 +11,11 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: '',
-    component: DashboardComponent,
-    children: dashboardRoutes,
-    canActivate: [AuthGuard]
+    canLoad: [AuthGuard],
+    // se carga el archivo de ingreso-egreso.module, y cuando esto sucede, se obtiene el módulo IngresoEgresoModule
+    loadChildren: () => import('./ingreso-egreso/ingreso-egreso.module').then(modulo => modulo.IngresoEgresoModule)
+    //IngresoEgresoModule,
+
   },
   { path: '**', redirectTo: '' } // Cualquier otro path me llevará al dashboard
 ];
