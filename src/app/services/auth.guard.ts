@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   canLoad(): Observable<boolean> {
     return this.auth.isAuth()
-      .pipe( // tap() es un operador rxjs que se utiliza para disparar un valor secundario, tras haber devuelvo el observable el primer valor
+      .pipe( // tap() es un operador rxjs que se utiliza para disparar un valor secundario, tras haber devuelto el observable el primer valor
         tap(estado => {
           if (!estado) {
             this.router.navigate(['/login']);
